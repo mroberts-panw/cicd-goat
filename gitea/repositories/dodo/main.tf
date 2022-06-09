@@ -74,6 +74,10 @@ resource "aws_iam_policy" "replication" {
   ]
 }
 POLICY
+  tags = {
+    git_org  = "mroberts-panw"
+    git_repo = "cicd-goat"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "replication" {
@@ -86,6 +90,10 @@ resource "aws_s3_bucket" "backup" {
 
   versioning {
     enabled = true
+  }
+  tags = {
+    git_org  = "mroberts-panw"
+    git_repo = "cicd-goat"
   }
 }
 
@@ -107,11 +115,15 @@ resource "aws_iam_role" "replication" {
   ]
 }
 POLICY
+  tags = {
+    git_org  = "mroberts-panw"
+    git_repo = "cicd-goat"
+  }
 }
 
 resource "aws_s3_bucket" "dodo" {
-  bucket        = var.bucket_name
-  acl           = "private"
+  bucket = var.bucket_name
+  acl    = "private"
 
   versioning {
     enabled = true
@@ -129,13 +141,17 @@ resource "aws_s3_bucket" "dodo" {
       }
     }
   }
+  tags = {
+    git_org  = "mroberts-panw"
+    git_repo = "cicd-goat"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "backup" {
   bucket = aws_s3_bucket.backup.id
-  
-  block_public_acls   = true
-  block_public_policy = true
+
+  block_public_acls       = true
+  block_public_policy     = true
   restrict_public_buckets = true
-  ignore_public_acls=true
+  ignore_public_acls      = true
 }
